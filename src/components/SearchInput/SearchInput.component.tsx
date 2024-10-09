@@ -17,12 +17,12 @@ const SearchInput = (props: SearchInputProps) => {
 
   return (
     <div
-      className={`bg-white px-3 transition-all py-2 gap-4 flex flex-row items-center rounded-md ${isFocused ? "ring-2 ring-gray-500" : ""}`}
+      className={`bg-white border-[0.1rem] rounded-xl border-gray-500 px-3 transition-all py-2 gap-4 flex flex-row items-center ${isFocused ? "ring-2 ring-gray-500" : ""}`}
     >
       <Icon.Search className="text-2xl text-gray-500" />
       <input
         ref={inputRef}
-        className="text-xl w-full"
+        className="text-md md:text-xl w-full"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         type="text"

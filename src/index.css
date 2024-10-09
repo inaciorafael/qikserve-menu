@@ -44,6 +44,17 @@ p, h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+.invisible-scrollbar {
+  overflow: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE e Edge */
+}
+
+/* Chrome, Safari e outros navegadores baseados em Webkit */
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none; /* Esconde a barra de rolagem */
+}
+
 .roboto-thin {
   font-family: "Roboto", sans-serif;
   font-weight: 100;
@@ -114,4 +125,10 @@ p, h1, h2, h3, h4, h5, h6 {
   font-family: "Roboto", sans-serif;
   font-weight: 900;
   font-style: italic;
+}
+
+@layer components {
+  .icon-button {
+    @apply w-6 h-6 flex items-center justify-center bg-primary rounded-full p-1 text-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-default text-white;
+  }
 }

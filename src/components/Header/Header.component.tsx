@@ -1,16 +1,12 @@
-import HeaderBanner from "../../assets/header-banner.png";
+import HeaderDesktop from "./Header.desktop";
+import HeaderMobile from "./Header.mobile";
+
+import { useResponsiveQueries } from "../../hooks";
 
 const Header = () => {
-  return (
-    <div className="bg-primary">
-      <div className="flex flex-row items-center justify-center gap-5">
-        <h1>MENU</h1>
-        <h1>ENTRAR</h1>
-        <h1>CONTATO</h1>
-      </div>
-      <img src={HeaderBanner} className="w-full" />
-    </div>
-  );
+  const { isMobile } = useResponsiveQueries();
+
+  return isMobile ? <HeaderMobile /> : <HeaderDesktop />;
 };
 
 export default Header;
