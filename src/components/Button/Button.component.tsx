@@ -14,8 +14,9 @@ const Button = ({ variant = "solid", className = '', ...props }: ButtonProps) =>
 
   return (
     <button
-      className="bg-primary w-full px-3 py-2 flex flex-row items-center justify-center gap-2 rounded-full text-white"
+      className="solid-button"
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {Array.isArray(props.title)
         ? props.title.map((text, index) => (

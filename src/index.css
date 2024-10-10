@@ -131,4 +131,8 @@ p, h1, h2, h3, h4, h5, h6 {
   .icon-button {
     @apply w-6 h-6 flex items-center justify-center bg-primary rounded-full p-1 text-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-default text-white;
   }
+
+  .solid-button {
+    @apply bg-primary w-full px-3 py-2 flex flex-row items-center justify-center gap-2 rounded-full text-white disabled:bg-[#DADADA] disabled:text-[#5F5F5F];
+  }
 }

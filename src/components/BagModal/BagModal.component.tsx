@@ -3,20 +3,28 @@ import Icon from "../Icon";
 import Button from "../Button";
 
 import { clearBag } from "../../store/bag/bag.slice";
-import { AppDispatch } from "../../store";
+import { AppDispatch, RootState } from "../../store";
 
 import { BagModalProps } from "./BagModal.types";
 import Cart from "../Cart";
+import { useEffect } from "react";
 
 const BagModal = (props: BagModalProps) => {
   if (!props.isOpen) return null;
 
   const dispatch: AppDispatch = useDispatch();
+  const { items: bagItems } = useSelector((state: RootState) => state.bag.state)
 
   const handleClearBag = () => {
     dispatch(clearBag());
     props.onClose();
   };
+
+  useEffect(() => {
+    if (bagItems.length === 0) {
+      props.onClose()
+    }
+  }, [bagItems])
 
   return (
     <div className="fixed transition-all inset-0 bg-gray-800 bg-opacity-70 flex items-center justify-center z-50">

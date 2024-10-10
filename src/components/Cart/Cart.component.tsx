@@ -47,7 +47,7 @@ const Cart = () => {
         </div>
 
         {items.length > 0 ? (
-          <div className="bg-foreground pb-20 md:px-0 px-5">
+          <div className="bg-foreground pb-20 md:pb-0 md:px-0 px-5">
             <div className="bg-foreground text-md md:px-5 border-b-[0.2rem] flex flex-row items-center py-5 justify-between">
               <p>Sub Total</p>
               <p className="font-semibold">{formatCurrency(getSubTotal())}</p>

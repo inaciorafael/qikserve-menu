@@ -13,7 +13,7 @@ const useHomeModel = () => {
   const menu = useSelector((state: RootState) => state.menu);
   const dispatch: AppDispatch = useDispatch();
 
-  const [isOpenBagModal, setIsOpenBagModal] = useState<boolean>(false)
+  const [isOpenBagModal, setIsOpenBagModal] = useState<boolean>(false);
 
   const { isLoading: isLoadingRestaurant, data: dataRestaurant } = useQuery({
     queryKey: ["restaurant"],
@@ -25,28 +25,29 @@ const useHomeModel = () => {
     queryFn: () => MenuServices().getMenu(),
   });
 
-  const handleOpenBagModal = () => setIsOpenBagModal(true)
+  const handleOpenBagModal = () => setIsOpenBagModal(true);
 
-  const handleCloseBagModal = () => setIsOpenBagModal(false)
+  const handleCloseBagModal = () => setIsOpenBagModal(false);
 
   useEffect(() => {
     if (!isLoadingRestaurant) {
-      dispatch(updateRestant(dataRestaurant?.data))
+      dispatch(updateRestant(dataRestaurant?.data));
     }
-  }, [isLoadingRestaurant])
+  }, [isLoadingRestaurant]);
 
   useEffect(() => {
     if (!isLoadingMenu) {
-      dispatch(updateMenu(dataMenu?.data))
+      dispatch(updateMenu(dataMenu?.data));
     }
-  }, [isLoadingMenu])
+  }, [isLoadingMenu]);
 
   return {
+    isLoadingRestaurant,
     restaurant,
     menu,
     isOpenBagModal,
     handleOpenBagModal,
-    handleCloseBagModal
+    handleCloseBagModal,
   };
 };
 

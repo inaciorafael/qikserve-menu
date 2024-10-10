@@ -7,7 +7,7 @@ const HeaderDesktop = () => {
   return (
     <div className="bg-primary">
       <div className="flex bg-primary flex-row items-center justify-center gap-5">
-        <HeaderMenuItem title="menu" />
+        <HeaderMenuItem isActive title="menu" />
         <HeaderMenuItem title="entrar" />
         <HeaderMenuItem title="contato" />
       </div>

@@ -5,9 +5,9 @@ const useFormatCurrency = () => {
   const { locale, ccy } = useSelector((state: RootState) => state.restaurant);
 
   const formatCurrency = (value: number): string => {
-    const formattedValue = new Intl.NumberFormat(locale, {
+    const formattedValue = new Intl.NumberFormat(locale || 'pt-BR', {
       style: "currency",
-      currency: ccy,
+      currency: ccy || 'BRL',
     }).format(value);
 
     return formattedValue.replace(/\s/g, '')

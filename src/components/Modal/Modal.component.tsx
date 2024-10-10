@@ -22,9 +22,7 @@ const Modal = (props: ModalProps) => {
   const { selectedMenuItem, closeModal } = useModal();
   const { formatCurrency } = useFormatCurrency();
 
-  const [checkedModifier, setCheckedModifier] = useState<number>(
-    (selectedMenuItem?.modifiers && selectedMenuItem?.modifiers[0].id) || 0,
-  );
+  const [checkedModifier, setCheckedModifier] = useState<number>(0);
   const [itemQtd, setItemQtd] = useState<number>(1);
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -149,6 +147,7 @@ const Modal = (props: ModalProps) => {
           <Button
             onClick={handleAddItemToBag}
             title={["Add to Order", getItemPrice()]}
+            disabled={!Boolean(checkedModifier)}
           />
         </div>
       </div>
