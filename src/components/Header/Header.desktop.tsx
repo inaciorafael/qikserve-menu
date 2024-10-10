@@ -6,12 +6,11 @@ import HeaderMenuItem from "../HeaderMenuItem";
 const HeaderDesktop = () => {
   return (
     <div className="bg-primary">
-      <div className="flex sticky bg-primary top-0 flex-row items-center justify-center gap-5">
+      <div className="flex bg-primary flex-row items-center justify-center gap-5">
         <HeaderMenuItem title="menu" />
         <HeaderMenuItem title="entrar" />
         <HeaderMenuItem title="contato" />
       </div>
-      <img src={HeaderBanner} className="w-full" />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { ButtonProps } from "./Button.types";
 const Button = ({ variant = "solid", className = '', ...props }: ButtonProps) => {
   if (variant === "icon") {
     return (
-      <button disabled={props.disabled} className={`icon-button ${className}`}>
+      <button disabled={props.disabled} className={`icon-button ${className}`} onClick={props.onClick}>
         {props.icon}
       </button>
     );
