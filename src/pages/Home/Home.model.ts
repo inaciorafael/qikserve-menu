@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ import { updateMenu } from "../../store/menu";
 import { RootState, AppDispatch } from "../../store";
 import { RestaurantServices } from "../../services";
 import MenuServices from "../../services/Menu";
-import { IForm } from './Home.types'
+import { IForm } from "./Home.types";
 
 const useHomeModel = () => {
   const restaurant = useSelector((state: RootState) => state.restaurant);
@@ -17,28 +17,48 @@ const useHomeModel = () => {
 
   const { control: formControl, watch } = useForm<IForm>({
     defaultValues: {
-      searchTerm: ''
-    }
-  })
+      searchTerm: "",
+    },
+  });
 
-  const watchSearchTerm = watch('searchTerm')
+  const watchSearchTerm = watch("searchTerm");
 
   const [isOpenBagModal, setIsOpenBagModal] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true);
+  const [restaurantError, setRestaurantError] = useState<boolean>(false);
+  const [menuError, setMenuError] = useState<boolean>(false);
 
   const { isLoading: isLoadingRestaurant, data: dataRestaurant } = useQuery({
     queryKey: ["restaurant"],
-    queryFn: () => RestaurantServices().getRestaurant().then(response => {
-      document.documentElement.style.setProperty('--primary-color', response.data.webSettings.primaryColour);
-      document.documentElement.style.setProperty('--nav-background', response.data.webSettings.navBackgroundColour);
+    queryFn: () =>
+      RestaurantServices()
+        .getRestaurant()
+        .then((response) => {
+          document.documentElement.style.setProperty(
+            "--primary-color",
+            response.data.webSettings.primaryColour,
+          );
+          document.documentElement.style.setProperty(
+            "--nav-background",
+            response.data.webSettings.navBackgroundColour,
+          );
 
-      return response
-    }),
+          return response;
+        })
+        .catch(() => {
+          setRestaurantError(true);
+        }),
   });
 
   const { isLoading: isLoadingMenu, data: dataMenu } = useQuery({
     queryKey: ["menu"],
-    queryFn: () => MenuServices().getMenu(),
+    queryFn: () =>
+      MenuServices()
+        .getMenu()
+        .then((response) => response)
+        .catch(() => {
+          setMenuError(true);
+        }),
   });
 
   const handleOpenBagModal = () => setIsOpenBagModal(true);
@@ -59,9 +79,9 @@ const useHomeModel = () => {
 
   useEffect(() => {
     if (restaurant.state && restaurant.state.id) {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [restaurant])
+  }, [restaurant]);
 
   return {
     loading,
@@ -72,7 +92,9 @@ const useHomeModel = () => {
     handleCloseBagModal,
     isLoadingMenu,
     formControl,
-    watchSearchTerm
+    watchSearchTerm,
+    restaurantError,
+    menuError
   };
 };
 
