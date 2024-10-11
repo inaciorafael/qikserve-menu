@@ -1,19 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-// TODO: Preço item
-// TODO: acompanhamento - modifiers
+import { useDispatch } from "react-redux";
 
 import { useFormatCurrency, useResponsiveQueries } from "../../hooks";
 import Button from "../Button";
 import Icon from "../Icon";
 
 import { BagItemProps } from "./BagItem.types";
-import { AppDispatch, RootState } from "../../store";
+import { AppDispatch } from "../../store";
 import { updateItem, removeItem } from "../../store/bag";
 
 const BagItem = (props: BagItemProps) => {
-  const { items: bagItems } = useSelector(
-    (state: RootState) => state.bag.state,
-  );
   const dispatch: AppDispatch = useDispatch();
   const { formatCurrency } = useFormatCurrency();
   const { isMobile } = useResponsiveQueries()
