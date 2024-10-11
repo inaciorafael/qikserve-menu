@@ -11,11 +11,31 @@ const Cart = () => {
   const { isMobile } = useResponsiveQueries();
 
   const getSubTotal = (): number => {
-    return items.reduce((acc, item) => acc + item.price * item.qtd, 0);
+    return items.reduce(
+      (acc, item) =>
+        acc +
+        item.price * item.quantity +
+        item.modifiers.reduce(
+          (accModifier, itemModifier) =>
+            accModifier + itemModifier.price * item.quantity,
+          0,
+        ),
+      0,
+    );
   };
 
   const getTotal = (): number => {
-    return items.reduce((acc, item) => acc + item.price * item.qtd, 0);
+    return items.reduce(
+      (acc, item) =>
+        acc +
+        item.price * item.quantity +
+        item.modifiers.reduce(
+          (accModifier, itemModifier) =>
+            accModifier + itemModifier.price * item.quantity,
+          0,
+        ),
+      0,
+    );
   };
 
   return (
@@ -32,7 +52,7 @@ const Cart = () => {
             <>
               {items.map((item, index) => (
                 <>
-                  <div className={isMobile ? 'px-5' : ''}>
+                  <div className={isMobile ? "px-5" : ""}>
                     <BagItem {...item} key={item.id} />
                   </div>
                   {isMobile && index !== items.length - 1 ? (

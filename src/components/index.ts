@@ -13,8 +13,10 @@ import RestaurantMenu from "./RestaurantMenu";
 import ListMenuItemsTitle from "./ListMenuItemsTitle";
 import Cart from "./Cart";
 import BagModal from "./BagModal";
+import Loading from "./Loading";
 
 export {
+  Loading,
   BagModal,
   Cart,
   ListMenuItemsTitle,

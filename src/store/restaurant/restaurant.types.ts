@@ -1,3 +1,5 @@
 import { RestaurantSettings } from "../../services/Restaurant/Restaurant.types";
 
-export type InitialStore = RestaurantSettings;
+export type InitialStore = {
+  state: RestaurantSettings | null
+};

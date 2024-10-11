@@ -1,19 +1,10 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 
 import Icon from "../../components/Icon";
-
-type SearchInputProps = React.InputHTMLAttributes<HTMLInputElement>;
+import { SearchInputProps } from './SearchInput.types'
 
 const SearchInput = (props: SearchInputProps) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
-
-  const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleChangeText = (event: React.FormEvent<HTMLInputElement>) => {
-    if (inputRef.current) {
-      inputRef.current.value = event.currentTarget.value;
-    }
-  };
 
   return (
     <div
@@ -21,12 +12,10 @@ const SearchInput = (props: SearchInputProps) => {
     >
       <Icon.Search className="text-2xl text-gray-500" />
       <input
-        ref={inputRef}
         className="text-md md:text-xl w-full"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         type="text"
-        onChange={handleChangeText}
         {...props}
       />
     </div>

@@ -5,8 +5,9 @@ import Button from "../Button";
 import Checkbox from "../Checkbox";
 
 import { useModal, useFormatCurrency } from "../../hooks";
-import { addItem, updateItemQtd } from "../../store/bag/bag.slice";
+import { addItem, updateItem } from "../../store/bag/bag.slice";
 import { AppDispatch, RootState } from "../../store";
+import { BagItem } from "../../store/bag/bag.types";
 
 type ModalProps = {
   isOpen: boolean;
@@ -16,14 +17,16 @@ type ModalProps = {
 const Modal = (props: ModalProps) => {
   if (!props.isOpen) return null;
 
-  const { items: bagItems } = useSelector((state: RootState) => state.bag.state)
+  const { items: bagItems } = useSelector(
+    (state: RootState) => state.bag.state,
+  );
   const dispatch: AppDispatch = useDispatch();
 
   const { selectedMenuItem, closeModal } = useModal();
   const { formatCurrency } = useFormatCurrency();
 
-  const [checkedModifier, setCheckedModifier] = useState<number>(0);
   const [itemQtd, setItemQtd] = useState<number>(1);
+  const [modifiers, setModifiers] = useState<BagItem[]>([]);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -42,11 +45,13 @@ const Modal = (props: ModalProps) => {
   };
 
   const getItemPrice = () => {
-    if (selectedMenuItem?.modifiers && selectedMenuItem.modifiers.length > 0) {
+    if (
+      selectedMenuItem?.modifiers &&
+      selectedMenuItem.modifiers.length > 0 &&
+      modifiers.length > 0
+    ) {
       return formatCurrency(
-        selectedMenuItem.modifiers[0].items.filter(
-          (modifier) => modifier.id === checkedModifier,
-        )[0]?.price * itemQtd || 0,
+        modifiers.reduce((acc, item) => acc + item.price * itemQtd, 0),
       );
     }
 
@@ -58,15 +63,17 @@ const Modal = (props: ModalProps) => {
   };
 
   const handleAddItemToBag = () => {
-    if (bagItems.some(item => item.id === selectedMenuItem?.id)) {
-      dispatch(updateItemQtd({ id: selectedMenuItem?.id, itemQtd }))
-      closeModal();
-      return
-    }
-
-    dispatch(addItem({ ...selectedMenuItem, qtd: itemQtd }));
+    dispatch(
+      addItem({
+        id: selectedMenuItem?.id,
+        name: selectedMenuItem?.name,
+        price: selectedMenuItem?.price,
+        quantity: itemQtd,
+        modifiers: modifiers,
+      }),
+    );
     closeModal();
-  }
+  };
 
   useEffect(() => {
     if (Boolean(selectedMenuItem)) {
@@ -79,6 +86,14 @@ const Modal = (props: ModalProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [Boolean(selectedMenuItem)]);
+
+  const disabledAddItemBagConditions = (): boolean => {
+    if (selectedMenuItem?.modifiers && modifiers.length === 0) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <div className="fixed transition-all inset-0 bg-gray-800 bg-opacity-70 flex items-center justify-center z-50">
@@ -112,23 +127,47 @@ const Modal = (props: ModalProps) => {
           {selectedMenuItem?.modifiers &&
           selectedMenuItem?.modifiers?.length > 0 ? (
             <>
-              <div className="bg-foreground py-3 px-6">
-                <h3 className="font-semibold text-subtitle text-md">
-                  Choose your size
-                </h3>
-                <p>Select {selectedMenuItem.modifiers[0].maxChoices} option</p>
-              </div>
+              {selectedMenuItem.modifiers.map((modifier) => (
+                <>
+                  <div className="bg-foreground py-3 px-6">
+                    <h3 className="font-semibold text-subtitle text-md">
+                      {modifier.name}
+                    </h3>
+                    <p>Select {modifier.maxChoices} option</p>
+                  </div>
 
-              <div className="flex bg-white flex-col gap-5 p-6">
-                {selectedMenuItem.modifiers[0].items.map((modifier) => (
-                  <Checkbox
-                    onSelect={() => setCheckedModifier(modifier.id)}
-                    isChecked={checkedModifier === modifier.id}
-                    {...modifier}
-                    key={modifier.id}
-                  />
-                ))}
-              </div>
+                  <div className="flex bg-white flex-col gap-5 p-6">
+                    {modifier.items.map((item) => (
+                      <Checkbox
+                        onSelect={() => {
+                          if (
+                            modifiers.some(
+                              (item) => item.modifierId === modifier.id,
+                            )
+                          ) {
+                            setModifiers((prevState) =>
+                              prevState.filter(
+                                (item) => item.modifierId !== modifier.id,
+                              ),
+                            );
+                          }
+
+                          // @ts-ignore
+                          setModifiers((prevState) => [
+                            ...prevState,
+                            { modifierId: modifier.id, ...item },
+                          ]);
+                        }}
+                        isChecked={Boolean(
+                          modifiers.some((a) => a.id === item.id),
+                        )}
+                        {...item}
+                        key={item.id}
+                      />
+                    ))}
+                  </div>
+                </>
+              ))}
             </>
           ) : null}
         </div>
@@ -142,12 +181,16 @@ const Modal = (props: ModalProps) => {
               icon={<Icon.Minus />}
             />
             <p className="text-2xl font-semibold">{itemQtd}</p>
-            <Button onClick={handleAddQtd} variant="icon" icon={<Icon.Plus />} />
+            <Button
+              onClick={handleAddQtd}
+              variant="icon"
+              icon={<Icon.Plus />}
+            />
           </div>
           <Button
             onClick={handleAddItemToBag}
             title={["Add to Order", getItemPrice()]}
-            disabled={!Boolean(checkedModifier)}
+            disabled={disabledAddItemBagConditions()}
           />
         </div>
       </div>

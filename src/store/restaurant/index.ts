@@ -1,1 +1,1 @@
-export { default, updateRestant } from "./restaurant.slice";
+export { default, updateRestaurant } from "./restaurant.slice";

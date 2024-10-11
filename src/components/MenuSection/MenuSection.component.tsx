@@ -2,8 +2,9 @@ import { MenuSectionProps } from "./MenuSection.types";
 
 const MenuSection = (props: MenuSectionProps) => {
   return (
-    <div
-      className={`flex flex-col gap-4 md:gap-6 pb-4 items-center border-b-[0.2rem] ${props.isActive ? "border-primary" : "border-transparent"}`}
+    <button
+      onClick={props.onClick}
+      className={`flex transition-all flex-col gap-4 md:gap-6 pb-4 items-center border-b-[0.2rem] ${props.isActive ? "border-primary" : "border-transparent"}`}
     >
       <div className="w-16 h-16 md:w-20 md:h-20">
         <img
@@ -12,7 +13,7 @@ const MenuSection = (props: MenuSectionProps) => {
         />
       </div>
       <p className="font-semibold text-title text-xl">{props.name}</p>
-    </div>
+    </button>
   );
 };
 

@@ -1,6 +1,4 @@
 import { useSelector } from "react-redux";
-// TODO: Formatar currency
-// TODO: Quantidade de items adicionados ao carrinho - Tratamento para mais de 1 digito 9+
 
 import { useFormatCurrency } from "../../hooks";
 import { MenuItemProps } from "./MenuItem.types";
@@ -18,7 +16,7 @@ const MenuItem = (props: MenuItemProps) => {
   const getQuantityFromBag = (): number => {
     const currentItem = bagItems.find((item) => item.id === props.id);
 
-    return currentItem?.qtd || 0;
+    return currentItem?.quantity || 0;
   };
 
   return (
@@ -26,7 +24,7 @@ const MenuItem = (props: MenuItemProps) => {
       onClick={() => openModal(props)}
       className="flex cursor-pointer flex-row items-center justify-between md:items-start md:gap-20 gap-5"
     >
-      <div className="">
+      <div>
         <div className="flex flex-row items-center gap-2">
           {getQuantityFromBag() ? (
             <div className="bg-primary font-semibold text-[0.8rem] flex items-center p-1 justify-center h-5 w-5 text-white rounded-md">

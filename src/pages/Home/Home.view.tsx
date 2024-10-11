@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Controller } from "react-hook-form";
 import {
   Button,
   Cart,
@@ -7,6 +8,7 @@ import {
   SearchInput,
   Modal,
   BagModal,
+  Loading,
 } from "../../components";
 import { useResponsiveQueries, useModal } from "../../hooks";
 import { RootState } from "../../store";
@@ -23,8 +25,20 @@ const Home = () => {
     isOpenBagModal,
     handleCloseBagModal,
     handleOpenBagModal,
+    loading,
+    isLoadingMenu,
+    formControl,
+    watchSearchTerm
   } = useHomeModel();
   const { selectedMenuItem, closeModal } = useModal();
+
+  if (loading && isLoadingMenu) {
+    return (
+      <div className="w-[100wh] h-[100vh] flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -33,22 +47,42 @@ const Home = () => {
           <Header />
           {isMobile ? (
             <img
-              src={restaurant.webSettings.bannerImage}
+              src={
+                restaurant.state && restaurant.state.webSettings.bannerImage
+                  ? restaurant.state.webSettings.bannerImage
+                  : ""
+              }
               className="object-cover h-32 bg-red-500"
             />
           ) : (
-            <img src={restaurant.webSettings.bannerImage} className="w-full" />
+            <img
+              src={
+                restaurant.state && restaurant.state.webSettings.bannerImage
+                  ? restaurant.state.webSettings.bannerImage
+                  : ""
+              }
+              className="w-full"
+            />
           )}
         </div>
         <div className="grid grid-cols-12 bg-white md:bg-background items-center w-full justify-center">
           {!isMobile ? <div className="col-span-2"></div> : null}
           <div className="md:col-span-8 col-span-12 flex flex-col gap-1">
-            {JSON.stringify(restaurant)}
             <div className="md:px-0 px-3">
-              <SearchInput placeholder="Search menu items" />
+              <Controller
+                control={formControl}
+                name="searchTerm"
+                render={({ field: { value, onChange } }) => (
+                  <SearchInput
+                    onChange={onChange}
+                    value={value}
+                    placeholder="Search menu items"
+                  />
+                )}
+              />
             </div>
             <div className="flex flex-row gap-8 md:px-10 md:py-5 bg-foreground">
-              <RestaurantMenu />
+              <RestaurantMenu searchTerm={watchSearchTerm} />
               {!isMobile ? <Cart /> : null}
             </div>
           </div>

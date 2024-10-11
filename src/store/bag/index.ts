@@ -1,1 +1,1 @@
-export { default, addItem, removeItem, updateItemQtd, clearBag } from "./bag.slice";
+export { default, addItem, removeItem, updateItem, clearBag } from "./bag.slice";

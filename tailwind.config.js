@@ -6,6 +6,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: 'var(--primary-color)',
+        'nav-background': 'var(--nav-background)',
         ...theme.colors
       },
     },

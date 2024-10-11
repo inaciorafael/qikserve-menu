@@ -1,30 +1,34 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 // TODO: Preço item
 // TODO: acompanhamento - modifiers
 
-import { useFormatCurrency } from "../../hooks";
+import { useFormatCurrency, useResponsiveQueries } from "../../hooks";
 import Button from "../Button";
 import Icon from "../Icon";
 
 import { BagItemProps } from "./BagItem.types";
-import { AppDispatch } from "../../store";
-import { updateItemQtd, removeItem } from '../../store/bag'
+import { AppDispatch, RootState } from "../../store";
+import { updateItem, removeItem } from "../../store/bag";
 
 const BagItem = (props: BagItemProps) => {
-  const dispatch: AppDispatch = useDispatch()
+  const { items: bagItems } = useSelector(
+    (state: RootState) => state.bag.state,
+  );
+  const dispatch: AppDispatch = useDispatch();
   const { formatCurrency } = useFormatCurrency();
+  const { isMobile } = useResponsiveQueries()
 
   const handleAddQtd = () => {
-    dispatch(updateItemQtd({ id: props.id, itemQtd: props.qtd + 1 }))
+    dispatch(updateItem({ id: props.id, itemQtd: props.quantity + 1 }));
   };
 
   const handleRemoveQtd = () => {
-    if (props.qtd > 1) {
-      dispatch(updateItemQtd({ id: props.id, itemQtd: props.qtd - 1 }))
-      return
+    if (props.quantity > 1) {
+      dispatch(updateItem({ id: props.id, itemQtd: props.quantity - 1 }));
+      return;
     }
 
-    dispatch(removeItem(props.id))
+    dispatch(removeItem(props.id));
   };
 
   return (
@@ -32,10 +36,12 @@ const BagItem = (props: BagItemProps) => {
       <div className="flex flex-row items-start justify-between">
         <div>
           <p className="text-title truncate">{props.name}</p>
-          <p className="text-subtitle truncate">Com 2 carnes(mock)</p>
+          {props.modifiers.length > 0 ? props.modifiers.map(modifier => (
+            <p key={modifier.id} className="text-subtitle truncate">{modifier.name}{isMobile ? `(+${formatCurrency(modifier.price)})` : ''}</p>
+          )) : null}
         </div>
         <p className="font-semibold text-title">
-          {formatCurrency(props.price * props.qtd)}
+          {formatCurrency(props.modifiers.length > 0 ? props.modifiers.reduce((acc, item) => acc + item.price * props.quantity, 0) : props.price * props.quantity)}
         </p>
       </div>
 
@@ -46,7 +52,7 @@ const BagItem = (props: BagItemProps) => {
           variant="icon"
           icon={<Icon.Minus />}
         />
-        <p className="font-semibold text-title">{props.qtd}</p>
+        <p className="font-semibold text-title">{props.quantity}</p>
         <Button
           className="text-sm"
           onClick={handleAddQtd}

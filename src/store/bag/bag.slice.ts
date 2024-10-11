@@ -18,13 +18,13 @@ const bagSlice = createSlice({
     clearBag: (state) => {
       state.state.items = []
     },
-    updateItemQtd: (state, action) => {
+    updateItem: (state, action) => {
       state.state = {
         items: state.state.items.map((item) => {
           if (item.id === action.payload.id) {
             return {
               ...item,
-              qtd: action.payload.itemQtd,
+              quantity: action.payload.itemQtd,
             };
           }
 
@@ -35,6 +35,6 @@ const bagSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, updateItemQtd, clearBag } = bagSlice.actions;
+export const { addItem, removeItem, updateItem, clearBag } = bagSlice.actions;
 
 export default bagSlice;

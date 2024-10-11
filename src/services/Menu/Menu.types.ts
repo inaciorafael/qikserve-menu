@@ -41,6 +41,7 @@ export interface Modifier {
 
 export interface Item {
   id: number;
+  modifierId?: number;
   name: string;
   price: number;
   maxChoices: number;
