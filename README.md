@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+# Qikserve Menu
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+    <img src="./screenshots/desktop.png" alt="Descrição 1" width="800" />
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+    <img src="./screenshots/mobile-menu.png" alt="Descrição 2" width="200" />
+    <img src="./screenshots/mobile-bag.png" alt="Descrição 3" width="200" />
+    <img src="./screenshots/usage.gif" alt="Descrição 3" width="200" />
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Como executar o projeto
 
-## Expanding the ESLint configuration
+### 1. Instale o Node.js
+Antes de começar, certifique-se de que o **Node.js** está instalado. Você pode baixar e instalar o Node.js [aqui](https://nodejs.org).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Para verificar a instalação, execute o seguinte comando no terminal:
 
-- Configure the top-level `parserOptions` property like this:
+```bash
+node -v
+npm -v
+```
+### 2. Clone o repositório
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Use o comando `git` abaixo para clonar o repositório do projeto para sua máquina local:
+
+```bash
+git clone git@github.com:inaciorafael/qikserve-menu.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 3. Instale as dependências e inicie o projeto
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
+npm run dev
 ```
+
+## Tecnologias usadas
+
+- **`@reduxjs/toolkit`**: Facilita o gerenciamento de estado global no React, permitindo que você armazene e compartilhe dados entre vários componentes da aplicação.
+
+- **`@tanstack/react-query`**: Gerencia dados assíncronos, como respostas de APIs, cuidando do cache e da sincronização de forma automática, para manter os dados sempre atualizados.
+
+- **`axios`**: Biblioteca para fazer requisições HTTP, permitindo que você busque ou envie dados para uma API através de métodos como `GET` e `POST`.
+
+- **`react-hook-form`**: Simplifica o controle de formulários no React, facilitando a manipulação de dados e validação dos inputs.
+
+- **`react-redux`**: É a biblioteca oficial de integração entre o React e o Redux. Ela permite que os componentes React acessem o estado global gerenciado pelo Redux e despachem ações para modificar esse estado.
