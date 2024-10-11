@@ -1,12 +1,12 @@
 import { useRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Icon from "../Icon";
 import Button from "../Button";
 import Checkbox from "../Checkbox";
 
 import { useModal, useFormatCurrency } from "../../hooks";
-import { addItem, updateItem } from "../../store/bag/bag.slice";
-import { AppDispatch, RootState } from "../../store";
+import { addItem } from "../../store/bag/bag.slice";
+import { AppDispatch } from "../../store";
 import { BagItem } from "../../store/bag/bag.types";
 
 type ModalProps = {
@@ -17,9 +17,6 @@ type ModalProps = {
 const Modal = (props: ModalProps) => {
   if (!props.isOpen) return null;
 
-  const { items: bagItems } = useSelector(
-    (state: RootState) => state.bag.state,
-  );
   const dispatch: AppDispatch = useDispatch();
 
   const { selectedMenuItem, closeModal } = useModal();

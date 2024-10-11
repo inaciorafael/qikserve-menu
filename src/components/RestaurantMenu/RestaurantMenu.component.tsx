@@ -67,6 +67,7 @@ const RestaurantMenu = (props: RestaurantMenuProps) => {
           <React.Fragment key={section.id}>
             <ListMenuItemsTitle title={section.name} />
             {section.items.map((item) => (
+              // @ts-ignore
               <MenuItem {...item} key={item.id} />
             ))}
           </React.Fragment>
